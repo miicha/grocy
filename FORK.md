@@ -56,7 +56,8 @@ Everything else the fork touches (check these for conflicts/drift on merges):
   `views/stockjournal.blade.php`, `views/stockentries.blade.php`,
   `views/stocksettings.blade.php`, `views/products.blade.php`
 
-Added files: `migrations/9001.sql`, `migrations/9999.php`, `FORK.md`.
+Added files: `migrations/9001.sql`, `migrations/9999.php`, `FORK.md`,
+`.devtools/sublocation_tests.php` (verification harness, see checklist below).
 
 The full delta against upstream is always visible with:
 
@@ -93,11 +94,21 @@ Then, before deploying:
 2. **Check for new location dropdowns/usages upstream:** grep the merged code for
    new `->locations()` calls or `$location->name` display sites that should use
    `locations_hierarchy()` / `location_path` in this fork.
-3. **Test both DB paths:**
-   - Fresh install: delete/empty DB, start app, confirm all migrations plus
-     9001/9999 run and the views exist.
-   - Upgrade: copy of a real pre-upgrade `grocy.db`, start app, confirm data and
-     hierarchy intact.
-4. **Smoke test:** create/nest/rename locations, freezer inheritance, circular
-   parent rejected, stock overview and location content sheet show paths.
+3. **Run the verification harness** (covers both DB paths, all triggers/views,
+   and compiles every Blade template; needs PHP with pdo_sqlite in PATH and
+   Composer deps installed in `packages/`):
+
+   ```sh
+   # Fresh-install path (temp DB, full migration chain, behavior checks):
+   php -d xdebug.mode=off .devtools/sublocation_tests.php
+
+   # Upgrade path (works on a COPY, the given file is never touched):
+   php -d xdebug.mode=off .devtools/sublocation_tests.php /path/to/pre-upgrade-grocy.db
+   ```
+
+   Exit code 0 = all checks passed. The upgrade run additionally confirms
+   existing location rows survive the merged migrations (the "Known risk" above).
+4. **Smoke test in the browser:** create/nest/rename locations, stock overview
+   and location content sheet show paths (the harness already covers freezer
+   inheritance and circular-parent rejection at the DB level).
 5. Tag: `git tag vX.Y.Z-subloc.1 && git push origin <fork-branch> --tags`.
