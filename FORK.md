@@ -17,6 +17,13 @@ so this fork maintains it on top of upstream releases.
   - `locations_resolved` — ancestor/descendant pairs for hierarchy queries.
   - `locations_hierarchy` — display view with `location_path`
     ("Warehouse > Shelf A") and `location_depth`.
+- API: `parent_location_id` is a regular field on `/api/objects/locations`
+  (readable and writable; the DB triggers reject self-parenting/cycles with a
+  proper error response). Both views are exposed **read-only** through the
+  generic entity API for external clients (e.g. mobile apps):
+  `GET /api/objects/locations_hierarchy` and `GET /api/objects/locations_resolved`
+  (added to the `ExposedEntity`/`ExposedEntityNoEdit`/`ExposedEntityNoDelete`
+  enums in `grocy.openapi.json` — that enum is the API's entity whitelist).
 - UI: location form has a parent picker, stock overview / location content sheet /
   location list show the full path, with a direct-content-only switch where relevant.
 
@@ -47,7 +54,9 @@ Everything else the fork touches (check these for conflicts/drift on merges):
 
 - `controllers/StockController.php` — uses `locations_hierarchy()` / `location_path`
 - `services/ApplicationService.php` — appends `version-fork.json`'s `ForkSuffix` to the version
-- `grocy.openapi.json` — API schema additions
+- `grocy.openapi.json` — API schema additions (`parent_location_id` on the
+  `Location` schema; `locations_hierarchy`/`locations_resolved` in the
+  `ExposedEntity*` enums)
 - `localization/strings.pot` — new strings
 - `public/viewjs/locationform.js`, `public/viewjs/locationcontentsheet.js`
 - `views/locationform.blade.php`, `views/locations.blade.php`,
@@ -100,8 +109,10 @@ Then, before deploying:
    new `->locations()` calls or `$location->name` display sites that should use
    `locations_hierarchy()` / `location_path` in this fork.
 3. **Run the verification harness** (covers both DB paths, all triggers/views,
-   and compiles every Blade template; needs PHP with pdo_sqlite in PATH and
-   Composer deps installed in `packages/`):
+   the API exposure in `grocy.openapi.json` incl. querying the views through
+   the same ORM path the generic entity API uses, and compiles every Blade
+   template; needs PHP with pdo_sqlite in PATH and Composer deps installed in
+   `packages/`):
 
    ```sh
    # Fresh-install path (temp DB, full migration chain, behavior checks):

@@ -15,7 +15,10 @@
 //      against a temp SQLite DB, twice (proves 9999.php is idempotent).
 //   2. Verifies schema, views, triggers, unique indexes and trigger behavior
 //      (path building, freezer inheritance/propagation, circular/self-parent rejection).
-//   3. Compiles every Blade template in views/ and syntax-checks the result,
+//   3. Verifies the fork's API surface in grocy.openapi.json (hierarchy views
+//      exposed read-only via /api/objects/{entity}, Location schema documents
+//      parent_location_id).
+//   4. Compiles every Blade template in views/ and syntax-checks the result,
 //      and verifies location_path is always output escaped (e()).
 
 error_reporting(E_ALL & ~E_DEPRECATED);
@@ -204,12 +207,39 @@ $cnt = $db->query('SELECT COUNT(*) FROM locations_hierarchy')->fetchColumn();
 $cntBase = $db->query('SELECT COUNT(*) FROM locations')->fetchColumn();
 check("locations_hierarchy row count matches locations ($cnt)", $cnt == $cntBase);
 
+// Query the views through LessQL exactly like GenericEntityApiController does
+// for GET /api/objects/{entity} — proves the exposed entities actually resolve
+$orm = DatabaseService::getInstance()->GetDbConnection();
+$ormRow = $orm->locations_hierarchy()->where('id', $box)->fetch();
+check('locations_hierarchy queryable via ORM (API path)', $ormRow != null && $ormRow['location_depth'] == 2);
+$ormRows = $orm->locations_resolved()->where('location_id', $box)->fetchAll();
+check('locations_resolved queryable via ORM (API path)', count($ormRows) === 3);
+
 // Remove test rows
 $cmd = $db->prepare('DELETE FROM locations WHERE name LIKE ?');
 $cmd->execute([$p . '%']);
 
 // ---------------------------------------------------------------------------
-// 4. Blade templates: compile + syntax check, location_path always escaped
+// 4. OpenAPI spec: hierarchy views exposed (read-only) via /api/objects/{entity}
+// ---------------------------------------------------------------------------
+
+$spec = json_decode(file_get_contents($repoRoot . '/grocy.openapi.json'));
+check('grocy.openapi.json parses', $spec !== null);
+if ($spec !== null)
+{
+	$schemas = $spec->components->schemas;
+	foreach (['locations_hierarchy', 'locations_resolved'] as $view)
+	{
+		check("$view in ExposedEntity", in_array($view, $schemas->ExposedEntity->enum));
+		check("$view in ExposedEntityNoEdit", in_array($view, $schemas->ExposedEntityNoEdit->enum));
+		check("$view in ExposedEntityNoDelete", in_array($view, $schemas->ExposedEntityNoDelete->enum));
+		check("$view not in ExposedEntityNoListing", !in_array($view, $schemas->ExposedEntityNoListing->enum));
+	}
+	check('Location schema documents parent_location_id', property_exists($schemas->Location->properties, 'parent_location_id'));
+}
+
+// ---------------------------------------------------------------------------
+// 5. Blade templates: compile + syntax check, location_path always escaped
 // ---------------------------------------------------------------------------
 
 $compiler = new BladeCompiler(new Filesystem(), $dataPath);
