@@ -45,7 +45,7 @@
 				id="location-filter">
 				<option value="all">{{ $__t('All') }}</option>
 				@foreach($locations as $location)
-				<option value="{{ $location->id }}">{{ $location->name }}</option>
+				<option value="{{ $location->id }}">{{ $location->location_path }}</option>
 				@endforeach
 			</select>
 		</div>
@@ -269,7 +269,7 @@
 					<td id="stock-{{ $stockEntry->id }}-location"
 						class="@if(!GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING) d-none @endif"
 						data-location-id="{{ $stockEntry->location_id }}">
-						{{ FindObjectInArrayByPropertyValue($locations, 'id', $stockEntry->location_id)->name }}
+						{{ FindObjectInArrayByPropertyValue($locations, 'id', $stockEntry->location_id)->location_path }}
 					</td>
 					<td id="stock-{{ $stockEntry->id }}-shopping-location"
 						class="@if(!GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING) d-none @endif"
