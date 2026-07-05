@@ -51,7 +51,10 @@ Everything else the fork touches (check these for conflicts/drift on merges):
 - `public/viewjs/locationform.js`, `public/viewjs/locationcontentsheet.js`
 - `views/locationform.blade.php`, `views/locations.blade.php`,
   `views/locationcontentsheet.blade.php`, `views/stockoverview.blade.php`,
-  `views/productform.blade.php`, `views/components/locationpicker.blade.php`
+  `views/productform.blade.php`, `views/components/locationpicker.blade.php`,
+  `views/consume.blade.php`, `views/transfer.blade.php`,
+  `views/stockjournal.blade.php`, `views/stockentries.blade.php`,
+  `views/stocksettings.blade.php`, `views/products.blade.php`
 
 Added files: `migrations/9001.sql`, `migrations/9999.php`, `FORK.md`.
 
