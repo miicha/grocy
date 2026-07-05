@@ -1,7 +1,10 @@
 <?php
 
-namespace Grocy\Controllers;
+namespace Grocy\Controllers\Api;
 
+use Grocy\Services\ApplicationService;
+use Grocy\Services\DatabaseService;
+use Grocy\Services\LocalizationService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -37,13 +40,13 @@ class SystemApiController extends BaseApiController
 	public function GetDbChangedTime(Request $request, Response $response, array $args)
 	{
 		return $this->ApiResponse($response, [
-			'changed_time' => $this->getDatabaseService()->GetDbChangedTime()
+			'changed_time' => DatabaseService::GetInstance()->GetDbChangedTime()
 		]);
 	}
 
 	public function GetSystemInfo(Request $request, Response $response, array $args)
 	{
-		return $this->ApiResponse($response, $this->getApplicationService()->GetSystemInfo());
+		return $this->ApiResponse($response, ApplicationService::GetInstance()->GetSystemInfo());
 	}
 
 	public function GetSystemTime(Request $request, Response $response, array $args)
@@ -62,7 +65,7 @@ class SystemApiController extends BaseApiController
 				$offset = $params['offset'];
 			}
 
-			return $this->ApiResponse($response, $this->getApplicationService()->GetSystemTime($offset));
+			return $this->ApiResponse($response, ApplicationService::GetInstance()->GetSystemTime($offset));
 		}
 		catch (\Exception $ex)
 		{
@@ -78,7 +81,7 @@ class SystemApiController extends BaseApiController
 			{
 				$requestBody = $this->GetParsedAndFilteredRequestBody($request);
 
-				$this->getLocalizationService()->CheckAndAddMissingTranslationToPot($requestBody['text']);
+				LocalizationService::GetInstance()->CheckAndAddMissingTranslationToPot($requestBody['text']);
 				return $this->EmptyApiResponse($response);
 			}
 			catch (\Exception $ex)
@@ -90,6 +93,6 @@ class SystemApiController extends BaseApiController
 
 	public function GetLocalizationStrings(Request $request, Response $response, array $args)
 	{
-		return $this->ApiResponse($response, json_decode($this->getLocalizationService()->GetPoAsJsonString()), true);
+		return $this->ApiResponse($response, json_decode(LocalizationService::GetInstance()->GetPoAsJsonString()), true);
 	}
 }

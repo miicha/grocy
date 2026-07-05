@@ -17,7 +17,7 @@ class SessionService extends BaseService
 			$expires = date('Y-m-d H:i:s', PHP_INT_SIZE == 4 ? PHP_INT_MAX : PHP_INT_MAX >> 32); // Never
 		}
 
-		$sessionRow = $this->getDatabase()->sessions()->createRow([
+		$sessionRow = $this->DB->sessions()->createRow([
 			'user_id' => $userId,
 			'session_key' => $newSessionKey,
 			'expires' => $expires
@@ -29,15 +29,15 @@ class SessionService extends BaseService
 
 	public function GetDefaultUser()
 	{
-		return $this->getDatabase()->users()->orderBy('id')->limit(1)->fetch();
+		return $this->DB->users()->orderBy('id')->limit(1)->fetch();
 	}
 
 	public function GetUserBySessionKey($sessionKey)
 	{
-		$sessionRow = $this->getDatabase()->sessions()->where('session_key', $sessionKey)->fetch();
+		$sessionRow = $this->DB->sessions()->where('session_key', $sessionKey)->fetch();
 		if ($sessionRow !== null)
 		{
-			return $this->getDatabase()->users($sessionRow->user_id);
+			return $this->DB->users($sessionRow->user_id);
 		}
 
 		return null;
@@ -51,16 +51,16 @@ class SessionService extends BaseService
 		}
 		else
 		{
-			$sessionRow = $this->getDatabase()->sessions()->where('session_key = :1 AND expires > :2', $sessionKey, date('Y-m-d H:i:s', time()))->fetch();
+			$sessionRow = $this->DB->sessions()->where('session_key = :1 AND expires > :2', $sessionKey, date('Y-m-d H:i:s', time()))->fetch();
 			if ($sessionRow !== null)
 			{
 				// This should not change the database file modification time as this is used
 				// to determine if REALLY something has changed
-				$dbModTime = $this->getDatabaseService()->GetDbChangedTime();
+				$dbModTime = DatabaseService::GetInstance()->GetDbChangedTime();
 				$sessionRow->update([
 					'last_used' => date('Y-m-d H:i:s', time())
 				]);
-				$this->getDatabaseService()->SetDbChangedTime($dbModTime);
+				DatabaseService::GetInstance()->SetDbChangedTime($dbModTime);
 
 				return true;
 			}
@@ -73,7 +73,7 @@ class SessionService extends BaseService
 
 	public function RemoveSession($sessionKey)
 	{
-		$this->getDatabase()->sessions()->where('session_key', $sessionKey)->delete();
+		$this->DB->sessions()->where('session_key', $sessionKey)->delete();
 	}
 
 	private function GenerateSessionKey()

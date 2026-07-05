@@ -21,6 +21,10 @@ Setting('MODE', 'production');
 
 // The directory name of one of the available localization folders
 // in the "/localization" directory (e.g. "en" or "de")
+// Grocy uses the first available locale / setting in this order
+// 1. Browser prefered locale
+// 2. The one set in user settings
+// 3. The one defined here below
 Setting('DEFAULT_LOCALE', 'en');
 
 // This is used to define the first day of a week for calendar views,

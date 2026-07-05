@@ -9,9 +9,11 @@
 // It sorts after 9001.sql, so on a fresh install the parent_location_id column
 // already exists when this runs.
 
+use Grocy\Services\DatabaseService;
+
 // Hierarchical locations: recreate views and triggers idempotently
 // Only applies when the sublocation migration (9001) has been applied
-$columns = $this->getDatabaseService()->ExecuteDbQuery("PRAGMA table_info('locations')")->fetchAll(\PDO::FETCH_ASSOC);
+$columns = DatabaseService::GetInstance()->ExecuteDbQuery("PRAGMA table_info('locations')")->fetchAll(\PDO::FETCH_ASSOC);
 $hasParentLocationId = false;
 foreach ($columns as $col)
 {
@@ -24,7 +26,7 @@ foreach ($columns as $col)
 
 if ($hasParentLocationId)
 {
-	$dbRaw = $this->getDatabaseService()->GetDbConnectionRaw();
+	$dbRaw = DatabaseService::GetInstance()->GetDbConnectionRaw();
 
 	// Views
 	$dbRaw->exec("DROP VIEW IF EXISTS locations_resolved");

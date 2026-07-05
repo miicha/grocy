@@ -3,8 +3,8 @@
 namespace Grocy\Middleware;
 
 use Grocy\Services\DatabaseService;
-use Grocy\Services\UsersService;
 use Grocy\Services\SessionService;
+use Grocy\Services\UsersService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class LdapAuthMiddleware extends AuthMiddleware
@@ -75,14 +75,14 @@ class LdapAuthMiddleware extends AuthMiddleware
 			{
 				ldap_close($connect);
 
-				$db = DatabaseService::getInstance()->GetDbConnection();
+				$db = DatabaseService::GetInstance()->GetDbConnection();
 				$user = $db->users()->where('username', $ldapUidAttribute)->fetch();
 				if ($user == null)
 				{
-					$user = UsersService::getInstance()->CreateUser($ldapUidAttribute, $ldapFirstName, $ldapLastName, '');
+					$user = UsersService::GetInstance()->CreateUser($ldapUidAttribute, $ldapFirstName, $ldapLastName, '');
 				}
 
-				$sessionKey = SessionService::getInstance()->CreateSession($user->id, $postParams['stay_logged_in'] == 'on');
+				$sessionKey = SessionService::GetInstance()->CreateSession($user->id, $postParams['stay_logged_in'] == 'on');
 				self::SetSessionCookie($sessionKey);
 
 				return true;

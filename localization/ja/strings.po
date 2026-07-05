@@ -1,11 +1,11 @@
 # Translators:
-# EbXpJ6bp <ebxpj6bp@outlook.jp>, 2020
 # Cisco Benjamin <metallica@vivaldi.net>, 2020
 # Tatsuya Ueda <ml@tatsuya.info>, 2020
 # KATSUHIKO SHIGEYAMA <kshigeyama@gmail.com>, 2020
 # 鳥山 陽平 <kagemomiji@gmail.com>, 2022
 # Taiki Matsumura, 2025
 # pigmentblue15, 2026
+# EbXpJ6bp <ebxpj6bp@outlook.jp>, 2026
 # 
 msgid ""
 msgstr ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-01T17:59:17+00:00\n"
 "PO-Revision-Date: 2019-05-01 17:42+0000\n"
-"Last-Translator: pigmentblue15, 2026\n"
+"Last-Translator: EbXpJ6bp <ebxpj6bp@outlook.jp>, 2026\n"
 "Language-Team: Japanese (https://app.transifex.com/grocy/teams/93189/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2622,3 +2622,17 @@ msgid ""
 "After this product was once in stock and when the desired quantity unit "
 "cannot be selected here, first create a corresponding unit conversion"
 msgstr "この物品がストックありとなった後、ここで希望の数量単位を選択できない場合、まず対応する単位変換を作成してください"
+
+# Default / initially created location
+msgid "Fridge"
+msgstr "冷蔵庫"
+
+# Default / initially created quantity unit
+msgid "Piece"
+msgid_plural "Pieces"
+msgstr[0] "ピース"
+
+# Default / initially created quantity unit
+msgid "Pack"
+msgid_plural "Packs"
+msgstr[0] "パック"

@@ -1,8 +1,8 @@
 # Translators:
-# Plamen Stoyanov <fireto@gmail.com>, 2020
-# Mihail Andreev, 2020
 # Krasimir Nedelchev <kaykayehnn+transifex@gmail.com>, 2020
 # Steliyan Stoyanov, 2025
+# Plamen Stoyanov <fireto@gmail.com>, 2026
+# Mihail Andreev, 2026
 # 
 msgid ""
 msgstr ""
@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-01T17:59:17+00:00\n"
 "PO-Revision-Date: 2019-05-01 17:42+0000\n"
-"Last-Translator: Steliyan Stoyanov, 2025\n"
+"Last-Translator: Mihail Andreev, 2026\n"
 "Language-Team: Bulgarian (Bulgaria) (https://app.transifex.com/grocy/teams/93189/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2837,3 +2837,19 @@ msgid ""
 "After this product was once in stock and when the desired quantity unit "
 "cannot be selected here, first create a corresponding unit conversion"
 msgstr ""
+
+# Default / initially created location
+msgid "Fridge"
+msgstr "Хладилник"
+
+# Default / initially created quantity unit
+msgid "Piece"
+msgid_plural "Pieces"
+msgstr[0] "Брой"
+msgstr[1] "Броя"
+
+# Default / initially created quantity unit
+msgid "Pack"
+msgid_plural "Packs"
+msgstr[0] "Опаковка"
+msgstr[1] "Опаковки"

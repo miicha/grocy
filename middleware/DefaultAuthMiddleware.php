@@ -29,7 +29,7 @@ class DefaultAuthMiddleware extends AuthMiddleware
 	{
 		if (isset($postParams['username']) && isset($postParams['password']))
 		{
-			$db = DatabaseService::getInstance()->GetDbConnection();
+			$db = DatabaseService::GetInstance()->GetDbConnection();
 
 			$user = $db->users()->where('username', $postParams['username'])->fetch();
 			$inputPassword = $postParams['password'];
@@ -37,13 +37,13 @@ class DefaultAuthMiddleware extends AuthMiddleware
 
 			if ($user !== null && password_verify($inputPassword, $user->password))
 			{
-				$sessionKey = SessionService::getInstance()->CreateSession($user->id, $stayLoggedInPermanently);
+				$sessionKey = SessionService::GetInstance()->CreateSession($user->id, $stayLoggedInPermanently);
 				self::SetSessionCookie($sessionKey);
 
-				if (password_needs_rehash($user->password, PASSWORD_DEFAULT))
+				if (password_needs_rehash($user->password, PASSWORD_ARGON2ID))
 				{
 					$user->update([
-						'password' => password_hash($inputPassword, PASSWORD_DEFAULT)
+						'password' => password_hash($inputPassword, PASSWORD_ARGON2ID)
 					]);
 				}
 

@@ -2,8 +2,8 @@
 
 namespace Grocy\Middleware;
 
-use Grocy\Services\ApiKeyService;
 use DI\Container;
+use Grocy\Services\ApiKeyService;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteContext;

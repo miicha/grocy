@@ -2858,3 +2858,19 @@ msgstr ""
 "Wenn dieses Produkt schon einmal im Bestand war und die gewünschte "
 "Mengeneinheit hier nicht ausgewählt werden kann, erstelle zunächst eine "
 "entsprechende ME-Umrechnung"
+
+# Default / initially created location
+msgid "Fridge"
+msgstr "Kühlschrank"
+
+# Default / initially created quantity unit
+msgid "Piece"
+msgid_plural "Pieces"
+msgstr[0] "Stück"
+msgstr[1] "Stücke"
+
+# Default / initially created quantity unit
+msgid "Pack"
+msgid_plural "Packs"
+msgstr[0] "Packung"
+msgstr[1] "Packungen"

@@ -1,5 +1,5 @@
 # Translators:
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2025
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2026
 # 
 msgid ""
 msgstr ""
@@ -7,7 +7,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-01T17:59:17+00:00\n"
 "PO-Revision-Date: 2019-05-01 17:42+0000\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>, 2025\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>, 2026\n"
 "Language-Team: Hebrew (Israel) (https://app.transifex.com/grocy/teams/93189/he_IL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2805,3 +2805,23 @@ msgid ""
 "After this product was once in stock and when the desired quantity unit "
 "cannot be selected here, first create a corresponding unit conversion"
 msgstr ""
+
+# Default / initially created location
+msgid "Fridge"
+msgstr "מקרר"
+
+# Default / initially created quantity unit
+msgid "Piece"
+msgid_plural "Pieces"
+msgstr[0] "חתיכה"
+msgstr[1] "חתיכות"
+msgstr[2] "חתיכות"
+msgstr[3] "חתיכות"
+
+# Default / initially created quantity unit
+msgid "Pack"
+msgid_plural "Packs"
+msgstr[0] "אריזה"
+msgstr[1] "אריזות"
+msgstr[2] "אריזות"
+msgstr[3] "אריזות"

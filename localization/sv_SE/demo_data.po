@@ -39,19 +39,6 @@ msgstr "Godisskåp"
 msgid "Tinned food cupboard"
 msgstr "Konservskafferi"
 
-msgid "Fridge"
-msgstr "Kylskåp"
-
-msgid "Piece"
-msgid_plural "Pieces"
-msgstr[0] "Bit"
-msgstr[1] "bitar"
-
-msgid "Pack"
-msgid_plural "Packs"
-msgstr[0] "Förpackning"
-msgstr[1] "förpackningar"
-
 msgid "Glass"
 msgid_plural "Glasses"
 msgstr[0] "Glas"
