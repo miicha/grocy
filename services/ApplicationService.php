@@ -54,6 +54,13 @@ class ApplicationService extends BaseService
 		if ($this->InstalledVersion == null)
 		{
 			$this->InstalledVersion = json_decode(file_get_contents(__DIR__ . '/../version.json'));
+
+			// FORK (sublocations): mark this build as modified, e.g. "4.6.0-subloc"
+			$forkVersionFile = __DIR__ . '/../version-fork.json';
+			if (file_exists($forkVersionFile))
+			{
+				$this->InstalledVersion->Version .= '-' . json_decode(file_get_contents($forkVersionFile))->ForkSuffix;
+			}
 		}
 
 		return $this->InstalledVersion;

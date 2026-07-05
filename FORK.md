@@ -46,6 +46,7 @@ This is the #1 thing to check on every upstream merge.
 Everything else the fork touches (check these for conflicts/drift on merges):
 
 - `controllers/StockController.php` — uses `locations_hierarchy()` / `location_path`
+- `services/ApplicationService.php` — appends `version-fork.json`'s `ForkSuffix` to the version
 - `grocy.openapi.json` — API schema additions
 - `localization/strings.pot` — new strings
 - `public/viewjs/locationform.js`, `public/viewjs/locationcontentsheet.js`
@@ -57,7 +58,11 @@ Everything else the fork touches (check these for conflicts/drift on merges):
   `views/stocksettings.blade.php`, `views/products.blade.php`
 
 Added files: `migrations/9001.sql`, `migrations/9999.php`, `FORK.md`,
-`.devtools/sublocation_tests.php` (verification harness, see checklist below).
+`.devtools/sublocation_tests.php` (verification harness, see checklist below),
+`version-fork.json` (fork marker: its `ForkSuffix` is appended to the displayed
+version everywhere — footer, about dialog, `/api/system/info`, OpenAPI spec —
+via a small hook in `services/ApplicationService.php::GetInstalledVersion()`,
+e.g. `4.6.0-subloc`).
 
 The full delta against upstream is always visible with:
 
